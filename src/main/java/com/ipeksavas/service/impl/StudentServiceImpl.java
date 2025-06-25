@@ -1,4 +1,4 @@
-package com.ipeksavas.services.impl;
+package com.ipeksavas.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,13 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ipeksavas.dto.DtoCourse;
 import com.ipeksavas.dto.DtoStudent;
 import com.ipeksavas.dto.DtoStudentIU;
+import com.ipeksavas.entities.Course;
 import com.ipeksavas.entities.Student;
 import com.ipeksavas.repository.StudentRepository;
-import com.ipeksavas.services.IStudentService;
+import com.ipeksavas.service.IStudentService;
 
 
 @Service
@@ -48,13 +50,31 @@ public class StudentServiceImpl implements IStudentService{
 
 	@Override
 	public DtoStudent getByStudentId(Integer id) {
-		DtoStudent dto = new DtoStudent();
-		Optional<Student> optional = studentRepository.findStudentById(id);//findById(id); vardı
-		if(optional.isPresent()) {
-			Student dbStudent = optional.get();
-			BeanUtils.copyProperties(dbStudent, dto);
+		DtoStudent dtoStudent = new DtoStudent();
+		Optional<Student> optional = studentRepository.findById(id);
+		if(optional.isEmpty()) {
+			return null;
 		}
-		return dto;
+		Student dbStudent = optional.get();
+		BeanUtils.copyProperties(dbStudent, dtoStudent);
+		
+		if(dbStudent.getCourses()!= null && !dbStudent.getCourses().isEmpty()) {
+			for (Course course : dbStudent.getCourses()) {
+				DtoCourse dtoCourse = new DtoCourse();
+				BeanUtils.copyProperties(course, dtoCourse);
+				dtoStudent.getCourses().add(dtoCourse);
+			}
+		}
+		return dtoStudent;
+		//bu metodu da önceden tanımlamıştık ilk derslerde
+//		DtoStudent dto = new DtoStudent();
+//		Optional<Student> optional = studentRepository.findStudentById(id);//findById(id); vardı
+//		if(optional.isPresent()) {
+//			Student dbStudent = optional.get();
+//			BeanUtils.copyProperties(dbStudent, dto);
+//		}
+//		return dto;
+		
 	}
 
 	@Override

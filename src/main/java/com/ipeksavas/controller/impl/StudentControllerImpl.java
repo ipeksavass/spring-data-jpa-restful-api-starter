@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ipeksavas.controller.IStudentController;
 import com.ipeksavas.dto.DtoStudent;
 import com.ipeksavas.dto.DtoStudentIU;
-import com.ipeksavas.services.IStudentService;
+import com.ipeksavas.service.IStudentService;
+
+import jakarta.validation.Valid;
 
 @RestController //Controller oldugunu soylemek icin 
 @RequestMapping("/rest/api/student")  //base bir url tanimladik
@@ -24,9 +26,8 @@ public class StudentControllerImpl implements IStudentController{
 	@Autowired
 	private IStudentService studentService;
 	
-	@PostMapping(path ="/save")      //post islemi gerceklestirecegim icin ekledim 
-	@Override
-	public DtoStudent saveStudent(@RequestBody DtoStudentIU dtoStudentIU) {
+	@PostMapping(path ="/save")      //veri ekleme işlemi gerçekleştirilecek
+	public DtoStudent saveStudent(@RequestBody @Valid DtoStudentIU dtoStudentIU) {
 		return studentService.saveStudent(dtoStudentIU);
 	}
 

@@ -1,6 +1,7 @@
 package com.ipeksavas.entities;
 
 import java.sql.Date;
+import java.util.List;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -10,6 +11,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -40,4 +44,10 @@ public class Student {
 	@DateTimeFormat(iso = ISO.DATE)
 	@Column (name = "birth_of_date", nullable = true)
 	private Date birthOfDate;
+	
+	@ManyToMany
+	@JoinTable(name = "student_course",
+	joinColumns =@JoinColumn(name ="student_id"),
+	inverseJoinColumns = @JoinColumn(name = "course_id"))
+	private List<Course> courses;
 }

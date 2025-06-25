@@ -1,4 +1,4 @@
-package com.ipeksavas.services;
+package com.ipeksavas.service;
 
 import java.util.List;
 
