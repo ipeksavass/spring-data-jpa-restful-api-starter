@@ -12,7 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity//veri tabanında bir tablo olabilmesi için işledim
-@Table(name = "address") //tablo adı customer olabilir
+@Table(name = "address") 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
